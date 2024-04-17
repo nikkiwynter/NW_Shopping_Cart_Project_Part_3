@@ -1,0 +1,142 @@
+#include <iostream>
+#include <string>
+#include <cmath>
+
+using namespace std;
+
+//declarations of const for customer info 
+const string CUSTOMER_NAME = "Michael Black";
+const string USERNAME = "mblack";
+const string PASSWORD = "brown124";
+const string ACCOUNT_NUMBER = "235765437";
+const string MEMBERSHIP = "none";
+const double STORE_CREDIT = 324.00;
+const string ADDRESS = "56 N Pathway Rd, Phoenix, AZ, 56565";
+
+//declarations of const for login error
+const string LOGIN_ERROR = "Invalid username or password. Please try again.";
+
+
+
+//declarations of const for item info 
+const string ITEM_SKU = "KF-231"; 
+const double PRICE_PER_UNIT = 15.23; 
+
+//declarations of regular variables for item info 
+string itemName = "Hammer";
+int quantity_On_Hand = 100;
+double itemPrice;
+
+//declarations of regular variables for calculation of item(s) and receipt
+int itemQuantity; 
+double taxRate = 0.06;
+double totalCost; 
+string receipt; 
+double taxAmount;
+
+//declarations for regular variables for customer decision
+char decision;
+bool continueShopping = true;
+
+int main() {
+
+//parallel array for the items available
+string sku[3] = {"HF-342", "LK-322", "KF-231"};
+string name[3] = {"1/2 in Bolt", "1/4 in Nail", "Hammer"};
+int items_In_Unit[3] = {50,25,1};
+double price_Per_Unit[3] = {20.00, 5.75, 15.23};
+int quantity_On_Hand[3] = {200,76,100};
+
+//Multidemensional (nested) array for the available items Chart
+string itemsChart[3][3] = {
+{sku[0], name[0], to_string(items_In_Unit[0]), to_string(price_Per_Unit[0]), to_string(quantity_On_Hand[0])},
+{sku[1], name[1], to_string(items_In_Unit[1]), to_string(price_Per_Unit[1]), to_string(quantity_On_Hand[1])},
+{sku[2], name[2], to_string(items_In_Unit[2]), to_string(price_Per_Unit[2]), to_string(quantity_On_Hand[2])},
+
+};
+
+//parallel array for membership levels
+string membershipLevel[4] = {"Diamond", "Gold", "Blue", "No Membership"};
+double discountRate[4] = {0.12, 0.085, 0.06, 0.0};
+string requiredSpend[4] = {"$700+", "$300+", "$100+", "N/A"};
+
+
+
+//Do 5-6 Functions, 4 transactions + 1 login + 1 logout + print the receipt 
+
+
+
+//Prompt customer to enter username and passwor if-else 
+cout << "Enter username: ";
+cin >> USERNAME;
+cout << "Enter password: ";
+cin >> PASSWORD;
+
+//See if the username/password combination match the values/variables
+if (USERNAME == "mblack" && PASSWORD == "brown124") {
+    cout << "Welcome, " << CUSTOMER_NAME << "!" << endl;
+} else {
+    cout << LOGIN_ERROR << endl;
+}
+
+//Display the items Chart
+cout << "Available Items: " << endl;
+for (int i = 0; i < 3; i++) {
+    for (int j = 0; j < 3; j++) {
+        cout << itemsChart[i][j] << "\t";
+    }
+            cout << endl;
+}
+
+//loop for purchase and exit vs reselection
+while (continueShopping) {
+//Prompt customer to select an item
+cout << "Select item: " << endl;
+cin >> ITEM_SKU;
+cout << "Enter item price: ";
+cin >> itemPrice;
+cout << "Select quantity: " << endl;
+cin >> itemQuantity;
+
+//Calculate item price, quantity, and tax
+totalCost = itemPrice * itemQuantity;
+taxAmount = totalCost * taxRate;
+totalCost += taxAmount;
+
+//display estimate
+cout << "Estimate: $" << totalCost << endl;
+
+//Prompt customer for purchase decision
+cout << "Would you like to continue with this purchase? (Y/N): ";
+cin >> decision; 
+
+//print receipt or continue shopping
+if (decision == 'Y' || decision == 'y') {
+    //print receipt
+    cout << "Receipt" << endl;
+    cout << "Customer Name: " << CUSTOMER_NAME << endl;
+    cout << "Account Number: " << ACCOUNT_NUMBER << endl;
+    cout << "Membership: " << MEMBERSHIP << endl;
+    cout << "Item: " << ITEM_SKU << endl;
+    cout << "Quantity: " << itemQuantity << endl;
+    cout << "Total Cost: $ " << totalCost << endl;
+    cout << "Credit Balance: $ " << STORE_CREDIT << endl;
+
+//end the loop
+    continueShopping = false;
+} else if (decision == 'N' || decision == 'n') {
+    cout << "Returning to item chart..." << endl;
+//loop to show item chart and prompt customer to select item
+} else {
+    cout << "Invalid input. Please enter 'Y' or 'N'. " << endl;
+    }
+}
+
+//Logout, program completes
+cout << "Logging out..." << endl;
+
+
+
+return 0; 
+
+}
